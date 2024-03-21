@@ -29,5 +29,25 @@ productsRouter.get("/products", async (req, res) => {
     }
 })
 
+productsRouter.get("/products/:pid", async (req, res) => {
+
+    const id = req.params.pid;
+
+    try {
+        const product = await productManager.getProductbyId(parseInt(id));
+        if (!product) {
+            return res.json({
+                error: "Producto no encontrado"
+            });
+        }
+        res.json(product);
+    } catch (error) {
+        res.status.json ("error al obtener el producto")
+        console.error("Error", error);
+        throw error;
+
+    }
+})
+
 
 export default productsRouter;

@@ -1,5 +1,5 @@
 //importo fs
-import {promises as fs} from 'fs'
+import { promises as fs } from 'fs'
 //const fs = require("fs").promises;
 
 
@@ -10,7 +10,7 @@ class ProductManager {
         this.path = path
     }
 
-    async leerArchivo () {
+    async leerArchivo() {
         try {
             const response = await fs.readFile(this.path, "utf-8")
             const arrayProducts = JSON.parse(response)
@@ -22,7 +22,7 @@ class ProductManager {
     }
     saveFile = async (arrayProducts) => {
         try {
-            await fs.saveFile(this.path, JSON.stringify(arrayProducts, "utf-8", null, 2))
+            await fs.writeFile(this.path, JSON.stringify(arrayProducts, null, 2));
         } catch (error) {
             console.log("no se puede sobreescribir el archivo", error)
         }
@@ -76,15 +76,24 @@ class ProductManager {
         }
     }
 
-    async getProductsbyId(id) {
-        if (this.products.find((product) => product.id == id)) {
-            const foundedProduct = this.products.find((product) => product.id == id)
-            this.saveFile(foundedProduct)
-        }
-        else {
-            console.log("No existe un producto con ese ID")
+    async getProductbyId(id) {
+        try {
+            const arrayProducts = await this.leerArchivo()
+            const foundedProduct = arrayProducts.find(product => product.id == id)
+            if (!foundedProduct) {
+                console.log("No existe un producto con ese ID");
+            }
+            else {
+                return foundedProduct;
+            }
+        } catch (error) {
+            console.log("no se pudo leer el archivo", error);
+            res.status(500).json({
+                error: "Error interno del servidor"
+            });
         }
     }
+
 
     async updateProduct(id, updatedProduct) {
         try {
