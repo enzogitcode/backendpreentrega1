@@ -5,11 +5,16 @@ const app = express();
 const PUERTO = 8080;
 
 //importo ProductManager
-import ProductManager from './product-manager.js';
+import ProductManager from './controllers/product-manager.js';
 
 //trabajar con json
 app.use (express.json ());
 app.use (express.urlencoded ({extended: true}))
+
+//import productsRouter from '../routes/products-router.js';
+
+
+
 app.post ("/products", async (req, res)=> {
     newProduct= req.body 
 })
@@ -20,7 +25,12 @@ app.listen (PUERTO, () => {
 app.get (PUERTO, (req, res) => {
 res.send ({products})
 })
+app.get ("/", (req, res) => {
+    res.send ('funciona')
+})
+app.get ("/api/products", (req, res) => {
 
+})
 
 //DOS RUTAS /PRODUCTS Y /CART
 /* 
