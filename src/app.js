@@ -1,31 +1,30 @@
-//import y const de Express
 import express from 'express';
+//const express= require ("express")
 const app = express();
-//PUERTO
 const PUERTO = 8080;
 
-//importo ProductManager
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+
 import ProductManager from './controllers/product-manager.js';
 
-//trabajar con json
-app.use (express.json ());
-app.use (express.urlencoded ({extended: true}))
-
-
-app.post ("/products", async (req, res)=> {
-    newProduct= req.body 
+//const productsRouter = require("./routes/products-router.js")
+import productsRouter from './routes/products-router.js';
+//const productsRouter= require ("./routes/products-router")
+app.post("/products", async (req, res) => {
+    newProduct = req.body
 })
 
-app.listen (PUERTO, () => {
-    console.log (`servidor express en Puerto ${PUERTO}`)
-    app.get ("/api", productsRouter);
-    app.get ("/api", cartsRouter);
+app.listen(PUERTO, () => {
+    console.log(`servidor express en Puerto ${PUERTO}`)
+    app.get("/api", productsRouter);
+    //app.get("/api", cartsRouter);
 })
-app.get (PUERTO, (req, res) => {
-res.send ({products})
+app.get(PUERTO, (req, res) => {
+    res.send({ products })
 })
-app.get ("/", (req, res) => {
-    res.send ('funciona')
+app.get("/", (req, res) => {
+    res.send('funciona')
 })
 
 //DOS RUTAS /PRODUCTS Y /CART

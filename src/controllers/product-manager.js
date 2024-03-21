@@ -1,5 +1,7 @@
 //importo fs
 import { promises as fs } from 'fs'
+//const fs = require("fs").promises;
+
 
 class ProductManager {
     static ultId = 0
@@ -24,10 +26,10 @@ class ProductManager {
             console.log("no se puede sobreescribir el archivo", error)
         }
     }
-    async addProducts() {
+    async addProducts({ title, description, price, img, code, stock, category, thumbnails }) {
         try {
             const arrayProducts = await this.readFile();
-            if (!title || !description || !price || !thumbnail || !code || !stock) {
+            if (!title || !description || !price || !thumbnails || !code || !stock ||!category ) {
                 console.log("Todos los campos son obligatorios");
                 return;
             }
@@ -118,4 +120,5 @@ class ProductManager {
 
 }
 
+//module.exports = ProductManager;
 export default ProductManager;

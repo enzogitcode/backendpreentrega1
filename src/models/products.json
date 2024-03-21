@@ -4,9 +4,11 @@
         "title": "Cable Vga",
         "description": "Cable Vga 20 Metros Blindado Macho Doble Filtro Cobre 100",
         "price": 23759,
-        "thumbnail": "sin imagen",
+        "img": "sin imagen",
         "code": "abc123",
         "stock": 25,
         "status": true,
-    "thumbnails": []
-    }]
+        "category": "cables",
+        "thumbnails": []
+    }
+]
