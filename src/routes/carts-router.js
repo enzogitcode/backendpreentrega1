@@ -25,6 +25,18 @@ cartsRouter.get("/carts/:cid", async (req, res) => {
     }
 })
 
+cartsRouter.post("/carts/:cid/product/:pid", async (req, res) => {
+    const cartId = parseInt(req.params.cid)
+    const productId = parseInt(req.params.pid)
+    const quantity = req.body.quantity || 1;
+    try {
+        const updateCart = await cartManager.agregarProductoAlCarrito(cartId, productId, quantity);
+        res.json(updateCart.products);
+    } catch (error) {
+        res.status(500).json({ error: "error interno del servidor Post" })
+
+    }
+})
 
 
 export default cartsRouter
