@@ -14,7 +14,6 @@ class ProductManager {
         try {
             const response = await fs.readFile(this.path, "utf-8")
             const arrayProducts = JSON.parse(response)
-            console.log (response)
             return arrayProducts;
         } catch (error) {
             console.log("error al leer el archivo", error);
