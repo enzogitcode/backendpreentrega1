@@ -7,6 +7,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 import ProductManager from './controllers/product-manager.js';
 import productsRouter from './routes/products-router.js';
+import cartsRouter from './routes/carts-router.js';
 
 //const productsRouter = require("./routes/products-router.js")
 //const productsRouter= require ("./routes/products-router")
@@ -20,6 +21,7 @@ app.listen(PUERTO, () => {
 })
 //app.get("/api", cartsRouter);
 app.use("/api", productsRouter);
+app.use("/api", cartsRouter);
 app.get(PUERTO, (req, res) => {
     res.send({ products })
 })
