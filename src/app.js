@@ -17,9 +17,9 @@ app.post("/products", async (req, res) => {
 
 app.listen(PUERTO, () => {
     console.log(`servidor express en Puerto ${PUERTO}`)
-    app.get("/api", productsRouter);
-    //app.get("/api", cartsRouter);
 })
+//app.get("/api", cartsRouter);
+app.get("/api", productsRouter);
 app.get(PUERTO, (req, res) => {
     res.send({ products })
 })

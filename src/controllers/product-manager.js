@@ -42,7 +42,6 @@ class ProductManager {
                 title,
                 description,
                 price,
-                thumbnail,
                 code,
                 stock,
                 category,
@@ -51,14 +50,14 @@ class ProductManager {
             }
             this.products.push(newProduct)
 
-            if (arrayProductos.length > 0) {
-                ProductManager.ultId = arrayProductos.reduce((maxId, product) => Math.max(maxId, product.id), 0);
+            if (arrayProducts.length > 0) {
+                ProductManager.ultId = arrayProducts.reduce((maxId, product) => Math.max(maxId, product.id), 0);
             }
 
             newProduct.id = ++ProductManager.ultId;
 
             arrayProducts.push(newProduct);
-            await this.saveFile(arrayProductos);
+            await this.saveFile(arrayProducts);
         } catch (error) {
             console.log("Error al agregar producto", error);
             throw error;
@@ -82,13 +81,13 @@ class ProductManager {
 
     async updateProduct(id, updatedProduct) {
         try {
-            const arrayProductos = await this.readFile();
+            const arrayProducts = await this.readFile();
 
-            const index = arrayProductos.findIndex(item => item.id === id);
+            const index = arrayProducts.findIndex(item => item.id === id);
 
             if (index !== -1) {
-                arrayProductos[index] = { ...arrayProductos[index], ...updatedProduct };
-                await this.saveFile(arrayProductos);
+                arrayProducts[index] = { ...arrayProducts[index], ...updatedProduct };
+                await this.saveFile(arrayProducts);
                 console.log("Producto actualizado");
             } else {
                 console.log("No se encontró el producto");
@@ -101,13 +100,13 @@ class ProductManager {
 
     async deleteProduct(id) {
         try {
-            const arrayProductos = await this.readFile();
+            const arrayProducts = await this.readFile();
 
-            const index = arrayProductos.findIndex(item => item.id === id);
+            const index = arrayProducts.findIndex(item => item.id === id);
 
             if (index !== -1) {
-                arrayProductos.splice(index, 1);
-                await this.saveFile(arrayProductos);
+                arrayProducts.splice(index, 1);
+                await this.saveFile(arrayProducts);
                 console.log("Producto eliminado");
             } else {
                 console.log("No se encontró el producto");
