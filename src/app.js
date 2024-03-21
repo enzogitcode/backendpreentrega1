@@ -19,7 +19,7 @@ app.listen(PUERTO, () => {
     console.log(`servidor express en Puerto ${PUERTO}`)
 })
 //app.get("/api", cartsRouter);
-app.get("/api", productsRouter);
+app.use("/api", productsRouter);
 app.get(PUERTO, (req, res) => {
     res.send({ products })
 })

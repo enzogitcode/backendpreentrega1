@@ -1,16 +1,16 @@
 import express from "express"
-const router = express.Router();
+const productsRouter = express.Router();
 
-import ProductManager from "../controllers/product-manager.js";
-const productManager = new ProductManager('./src/models/products.json');
 /* const express = require("express");
 const router = express.Router();
 
 const ProductManager = require("../controllers/product-manager.js");
 const productManager = new ProductManager("./src/models/productos.json"); */
+import ProductManager from "../controllers/product-manager.js";
+const productManager = new ProductManager("./src/models/products.json");
 
 
-router.get("/products", async (req, res) => {
+productsRouter.get("/products", async (req, res) => {
     try {
         const limit = req.query.limit;
         const products = await productManager.getProducts();
@@ -23,7 +23,7 @@ router.get("/products", async (req, res) => {
     } catch (error) {
         console.error("error en el servidor", error)
         res.status(500).json({
-            error: "error interno del servidor"
+            error: "error interno del servidor qwerty"
         })
 
     }
@@ -31,4 +31,4 @@ router.get("/products", async (req, res) => {
 
 //module.exports = router
 
-export default router;
+export default productsRouter;

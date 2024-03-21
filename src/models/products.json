@@ -10,5 +10,17 @@
         "status": true,
         "category": "cables",
         "thumbnails": []
+    },
+    {
+        "id": 2,
+        "title": "Cable USB",
+        "description": "Cable USB",
+        "price": 15000,
+        "img": "sin imagen",
+        "code": "abc124",
+        "stock": 25,
+        "status": true,
+        "category": "cables",
+        "thumbnails": []
     }
 ]

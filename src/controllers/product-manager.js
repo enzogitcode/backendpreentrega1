@@ -1,5 +1,5 @@
 //importo fs
-import { promises as fs } from 'fs'
+import {promises as fs} from 'fs'
 //const fs = require("fs").promises;
 
 
@@ -10,13 +10,15 @@ class ProductManager {
         this.path = path
     }
 
-    readFile = async () => {
+    async leerArchivo () {
         try {
-            const response = fs.readFile(this.path, "utf-8")
+            const response = await fs.readFile(this.path, "utf-8")
             const arrayProducts = JSON.parse(response)
+            console.log (response)
             return arrayProducts;
         } catch (error) {
-            console.log("error al leer el archivo", error)
+            console.log("error al leer el archivo", error);
+            throw error;
         }
     }
     saveFile = async (arrayProducts) => {
@@ -28,8 +30,8 @@ class ProductManager {
     }
     async addProducts({ title, description, price, img, code, stock, category, thumbnails }) {
         try {
-            const arrayProducts = await this.readFile();
-            if (!title || !description || !price || !thumbnails || !code || !stock ||!category ) {
+            const arrayProducts = await this.leerArchivo();
+            if (!title || !description || !price || !thumbnails || !code || !stock || !category) {
                 console.log("Todos los campos son obligatorios");
                 return;
             }
@@ -42,6 +44,7 @@ class ProductManager {
                 title,
                 description,
                 price,
+                img,
                 code,
                 stock,
                 category,
@@ -64,9 +67,14 @@ class ProductManager {
         }
     }
     async getProducts() {
-        const resp = await JSON.parse(fs.readFile(this.path, "utf-8"));
-        const array = JSON.parse(resp);
-        return array;
+        try {
+            const arrayProducts = await this.leerArchivo();
+            return arrayProducts;
+
+        } catch (error) {
+            console.log("error al leer el archivo", error);
+            throw error;
+        }
     }
 
     async getProductsbyId(id) {
@@ -81,7 +89,7 @@ class ProductManager {
 
     async updateProduct(id, updatedProduct) {
         try {
-            const arrayProducts = await this.readFile();
+            const arrayProducts = await this.leerArchivo();
 
             const index = arrayProducts.findIndex(item => item.id === id);
 
@@ -100,7 +108,7 @@ class ProductManager {
 
     async deleteProduct(id) {
         try {
-            const arrayProducts = await this.readFile();
+            const arrayProducts = await this.leerArchivo();
 
             const index = arrayProducts.findIndex(item => item.id === id);
 
@@ -118,6 +126,5 @@ class ProductManager {
     }
 
 }
-
 //module.exports = ProductManager;
 export default ProductManager;
