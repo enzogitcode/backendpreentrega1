@@ -4,7 +4,6 @@ const productsRouter = express.Router();
 import ProductManager from "../controllers/product-manager.js";
 const productManager = new ProductManager("./src/models/products.json");
 
-
 productsRouter.get("/products", async (req, res) => {
     try {
         const limit = req.query.limit;

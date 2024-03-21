@@ -1,6 +1,5 @@
 import { promises as fs } from 'fs'
 
-
 class CartManager {
     constructor(path) {
         this.path = path
@@ -29,7 +28,7 @@ class CartManager {
             id: ++this.ultId,
             products: []
         }
-        this.carts.push(nvoCart)
+        this.carts.push(nvoCart);
         await this.carts.saveCarts();
         return nvoCart;
     }
@@ -55,7 +54,7 @@ class CartManager {
             findProduct.quantity += quantity;
         }
         else {
-            cart.products.push ({product: productId, quantity})
+            cart.products.push({ product: productId, quantity })
         }
         await this.saveCarts();
         return cart;
