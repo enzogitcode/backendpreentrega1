@@ -2,11 +2,11 @@
 import { promises as fs } from 'fs'
 
 class ProductManager {
+    static ultId = 0
     constructor(path) {
         this.products = []
         this.path = path
     }
-    static ultId = 0
 
     readFile = async (product) => {
         try {
@@ -17,9 +17,9 @@ class ProductManager {
             console.log("error al leer el archivo", error)
         }
     }
-    writeFile = async (arrayProducts) => {
+    saveFile = async (arrayProducts) => {
         try {
-            await fs.writeFile(this.path, JSON.stringify(arrayProducts, "utf-8", null, 2))
+            await fs.saveFile(this.path, JSON.stringify(arrayProducts, "utf-8", null, 2))
         } catch (error) {
             console.log("no se puede sobreescribir el archivo", error)
         }
@@ -56,38 +56,66 @@ class ProductManager {
             newProduct.id = ++ProductManager.ultId;
 
             arrayProducts.push(newProduct);
-            await this.writeFile(arrayProductos);
+            await this.saveFile(arrayProductos);
         } catch (error) {
             console.log("Error al agregar producto", error);
             throw error;
         }
     }
-    async getProducts () {
-        const resp= await JSON.parse(fs.readFile(this.path, "utf-8"));
+    async getProducts() {
+        const resp = await JSON.parse(fs.readFile(this.path, "utf-8"));
         const array = JSON.parse(resp);
         return array;
     }
 
-    async getProductsbyId() {
-if (this.products.find((product) => product.id == id)) {
+    async getProductsbyId(id) {
+        if (this.products.find((product) => product.id == id)) {
             const foundedProduct = this.products.find((product) => product.id == id)
-            this.writeFile (foundedProduct)
+            this.saveFile(foundedProduct)
         }
         else {
             console.log("No existe un producto con ese ID")
         }
     }
-    
-    async updateProducts() {
 
-    }
-    async deleteProducts() {
+    async updateProduct(id, updatedProduct) {
+        try {
+            const arrayProductos = await this.readFile();
 
+            const index = arrayProductos.findIndex(item => item.id === id);
+
+            if (index !== -1) {
+                arrayProductos[index] = { ...arrayProductos[index], ...updatedProduct };
+                await this.saveFile(arrayProductos);
+                console.log("Producto actualizado");
+            } else {
+                console.log("No se encontró el producto");
+            }
+        } catch (error) {
+            console.log("Error al actualizar el producto", error);
+            throw error;
+        }
     }
+
+    async deleteProduct(id) {
+        try {
+            const arrayProductos = await this.readFile();
+
+            const index = arrayProductos.findIndex(item => item.id === id);
+
+            if (index !== -1) {
+                arrayProductos.splice(index, 1);
+                await this.saveFile(arrayProductos);
+                console.log("Producto eliminado");
+            } else {
+                console.log("No se encontró el producto");
+            }
+        } catch (error) {
+            console.log("Error al eliminar el producto", error);
+            throw error;
+        }
+    }
+
 }
-
-const manager = new ProductManager;
-
-manager.writeProducts();
 
 export default ProductManager;
