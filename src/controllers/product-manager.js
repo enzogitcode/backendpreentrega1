@@ -79,12 +79,12 @@ class ProductManager {
     async getProductbyId(id) {
         try {
             const arrayProducts = await this.leerArchivo()
-            const foundedProduct = arrayProducts.find(product => product.id == id)
-            if (!foundedProduct) {
+            const foundingProduct = arrayProducts.find(product => product.id == id)
+            if (!foundingProduct) {
                 console.log("No existe un producto con ese ID");
             }
             else {
-                return foundedProduct;
+                return foundingProduct;
             }
         } catch (error) {
             console.log("no se pudo leer el archivo", error);

@@ -37,7 +37,7 @@ productsRouter.get("/products/:pid", async (req, res) => {
         const product = await productManager.getProductbyId(parseInt(id));
         if (!product) {
             return res.json({
-                error: "Producto no encontrado"
+                error: "No existe un producto con ese ID"
             });
         }
         res.json(product);
@@ -48,6 +48,15 @@ productsRouter.get("/products/:pid", async (req, res) => {
 
     }
 })
+productsRouter.post ("/", async (req, res) => {
+    const nvoProduct = req.body
+    try {
+        await productManager.addProducts(nvoProduct);
+        res.status (201).json ({message: "Producto agregado con éxito"})
 
+    } catch (error) {
+     res.status (500).json ({error: "Error del servidor"})   
+    }
+})
 
 export default productsRouter;
