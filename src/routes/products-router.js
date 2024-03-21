@@ -1,11 +1,6 @@
 import express from "express"
 const productsRouter = express.Router();
 
-/* const express = require("express");
-const router = express.Router();
-
-const ProductManager = require("../controllers/product-manager.js");
-const productManager = new ProductManager("./src/models/productos.json"); */
 import ProductManager from "../controllers/product-manager.js";
 const productManager = new ProductManager("./src/models/products.json");
 
@@ -42,21 +37,33 @@ productsRouter.get("/products/:pid", async (req, res) => {
         }
         res.json(product);
     } catch (error) {
-        res.status.json ("error al obtener el producto")
+        res.status.json("error al obtener el producto")
         console.error("Error", error);
         throw error;
 
     }
 })
-productsRouter.post ("/", async (req, res) => {
+productsRouter.post("/", async (req, res) => {
     const nvoProduct = req.body
     try {
-        await productManager.addProducts(nvoProduct);
-        res.status (201).json ({message: "Producto agregado con éxito"})
+        await productManager.addProduct(nvoProduct);
+        res.status(201).json({ message: "Producto agregado con éxito" })
 
     } catch (error) {
-     res.status (500).json ({error: "Error del servidor"})   
+        res.status(500).json({ error: "Error del servidor" })
     }
+})
+
+productsRouter.put("/products/:pid", async (req, res) => {
+    const id = req.params.pid;
+    const updatedProduct = req.body;
+    try {
+        await productManager.updateProduct(parseInt(id), updatedProduct)
+        res.json({ message: "producto actualizado correctamente" })
+    } catch (error) {
+        res.status(500).json({ error: "Error del servidor en updatedProduct" })
+    }
+
 })
 
 export default productsRouter;

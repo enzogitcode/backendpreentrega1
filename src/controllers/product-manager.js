@@ -1,6 +1,4 @@
-//importo fs
 import { promises as fs } from 'fs'
-//const fs = require("fs").promises;
 
 
 class ProductManager {
@@ -27,44 +25,45 @@ class ProductManager {
             console.log("no se puede sobreescribir el archivo", error)
         }
     }
-    async addProducts({ title, description, price, img, code, stock, category, thumbnails }) {
+    async addProduct({ title, description, price, img, code, stock, category, thumbnails }) {
         try {
-            const arrayProducts = await this.leerArchivo();
-            if (!title || !description || !price || !thumbnails || !code || !stock || !category) {
-                console.log("Todos los campos son obligatorios");
-                return;
-            }
-            if (this.products.some((product) => product.code === code)) {
-                console.log("El código debe ser único")
-                return;
-            }
-            const newProduct = {
-                id: ++ProductManager.id,
-                title,
-                description,
-                price,
-                img,
-                code,
-                stock,
-                category,
-                status: true,
-                thumbnails: thumbnails || []
-            }
-            this.products.push(newProduct)
-
-            if (arrayProducts.length > 0) {
-                ProductManager.ultId = arrayProducts.reduce((maxId, product) => Math.max(maxId, product.id), 0);
-            }
-
-            newProduct.id = ++ProductManager.ultId;
-
-            arrayProducts.push(newProduct);
-            await this.saveFile(arrayProducts);
+          const arrayProducts = await this.leerArchivo();
+    
+          if (!title || !description || !price || !code || !stock || !category) {
+            console.log("Todos los campos son obligatorios");
+            return;
+          }
+    
+          if (arrayProducts.some(item => item.code === code)) {
+            console.log("El código debe ser único");
+            return;
+          }
+    
+          const newProduct = {
+            title,
+            description,
+            price,
+            img,
+            code,
+            stock,
+            category,
+            status: true,
+            thumbnails: thumbnails || []
+          };
+    
+          if (arrayProducts.length > 0) {
+            ProductManager.ultId = arrayProducts.reduce((maxId, product) => Math.max(maxId, product.id), 0);
+          }
+    
+          newProduct.id = ++ProductManager.ultId; 
+    
+          arrayProducts.push(newProduct);
+          await this.guardarArchivo(arrayProducts);
         } catch (error) {
-            console.log("Error al agregar producto", error);
-            throw error;
+          console.log("Error al agregar producto", error);
+          throw error; 
         }
-    }
+      }
     async getProducts() {
         try {
             const arrayProducts = await this.leerArchivo();
@@ -99,7 +98,7 @@ class ProductManager {
         try {
             const arrayProducts = await this.leerArchivo();
 
-            const index = arrayProducts.findIndex(item => item.id === id);
+            const index = arrayProducts.findIndex(item => item.id == id);
 
             if (index !== -1) {
                 arrayProducts[index] = { ...arrayProducts[index], ...updatedProduct };
@@ -134,5 +133,4 @@ class ProductManager {
     }
 
 }
-//module.exports = ProductManager;
 export default ProductManager;
