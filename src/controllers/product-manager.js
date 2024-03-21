@@ -8,7 +8,7 @@ class ProductManager {
         this.path = path
     }
 
-    readFile = async (product) => {
+    readFile = async () => {
         try {
             const response = fs.readFile(this.path, "utf-8")
             const arrayProducts = JSON.parse(response)

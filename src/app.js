@@ -11,9 +11,6 @@ import ProductManager from './controllers/product-manager.js';
 app.use (express.json ());
 app.use (express.urlencoded ({extended: true}))
 
-//import productsRouter from '../routes/products-router.js';
-
-
 
 app.post ("/products", async (req, res)=> {
     newProduct= req.body 
@@ -21,15 +18,14 @@ app.post ("/products", async (req, res)=> {
 
 app.listen (PUERTO, () => {
     console.log (`servidor express en Puerto ${PUERTO}`)
+    app.get ("/api", productsRouter);
+    app.get ("/api", cartsRouter);
 })
 app.get (PUERTO, (req, res) => {
 res.send ({products})
 })
 app.get ("/", (req, res) => {
     res.send ('funciona')
-})
-app.get ("/api/products", (req, res) => {
-
 })
 
 //DOS RUTAS /PRODUCTS Y /CART
